@@ -8,6 +8,8 @@
 - 視覺化最終策略路徑
 - 提供自動化分析（收斂速度、穩定性、策略偏好）
 
+demo: https://dotrabbit74.github.io/HW2-Q-learning-SARSA-/
+
 ## 1. 本機驗證（localhost）
 
 在專案目錄執行：
