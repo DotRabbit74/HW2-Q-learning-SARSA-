@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cliff Walking: Q-learning vs SARSA</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;600;700;800&family=Space+Grotesk:wght@500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js" defer></script>
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <div class="bg-shape bg-shape-1"></div>
+    <div class="bg-shape bg-shape-2"></div>
+
+    <main class="container">
+      <header class="hero">
+        <p class="tag">Reinforcement Learning Homework 2</p>
+        <h1>Cliff Walking: Q-learning 與 SARSA 比較實驗</h1>
+        <p>
+          同一個環境、同一組參數，觀察兩種 TD 控制方法的學習曲線、策略差異與穩定性。
+        </p>
+      </header>
+
+      <section class="panel controls">
+        <h2>實驗參數</h2>
+        <div class="grid">
+          <label>
+            Episodes
+            <input id="episodes" type="number" min="100" step="100" value="500" />
+          </label>
+          <label>
+            Runs (平均次數)
+            <input id="runs" type="number" min="1" max="200" value="50" />
+          </label>
+          <label>
+            Epsilon (ε)
+            <input id="epsilon" type="number" min="0" max="1" step="0.01" value="0.1" />
+          </label>
+          <label>
+            Alpha (α)
+            <input id="alpha" type="number" min="0.01" max="1" step="0.01" value="0.1" />
+          </label>
+          <label>
+            Gamma (γ)
+            <input id="gamma" type="number" min="0" max="1" step="0.01" value="0.9" />
+          </label>
+          <label>
+            Seed
+            <input id="seed" type="number" min="1" value="42" />
+          </label>
+        </div>
+
+        <div class="buttons">
+          <button id="runBtn" class="btn primary">執行訓練</button>
+          <button id="resetBtn" class="btn ghost">重設預設值</button>
+        </div>
+        <p id="status" class="status">尚未執行。</p>
+      </section>
+
+      <section class="panel">
+        <h2>每回合總獎勵曲線（平均）</h2>
+        <canvas id="rewardChart" height="120"></canvas>
+      </section>
+
+      <section class="panel policy-wrap">
+        <div>
+          <h2>Q-learning 最終策略</h2>
+          <div id="qPolicy" class="policy-grid"></div>
+        </div>
+        <div>
+          <h2>SARSA 最終策略</h2>
+          <div id="sarsaPolicy" class="policy-grid"></div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>自動分析摘要</h2>
+        <div id="analysis" class="analysis"></div>
+      </section>
+
+      <section class="panel theory">
+        <h2>理論比較（可直接放入報告）</h2>
+        <ul>
+          <li>
+            Q-learning 是 Off-policy：更新目標使用下一狀態的最大價值
+            max_a Q(s', a)，即使該動作不是實際執行的行為。
+          </li>
+          <li>
+            SARSA 是 On-policy：更新目標使用實際採樣到的下一步動作 Q(s', a')，因此會反映 ε-greedy
+            探索所帶來的風險。
+          </li>
+          <li>
+            在 Cliff Walking 中，Q-learning 常學到「貼近懸崖」的高報酬路徑（較冒險），SARSA
+            常偏向遠離懸崖（較保守），以減少探索時掉落懸崖的機率。
+          </li>
+        </ul>
+      </section>
+    </main>
+  </body>
+</html>
